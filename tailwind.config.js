@@ -5,9 +5,9 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
-      // fontFamily: {
-      //   SpaceGrotesk: ["SpaceGrotesk-Regular"],
-      // },
+      fontFamily: {
+        SpaceGrotesk: "SpaceGrotesk_400Regular",
+      },
     },
   },
   plugins: [],

@@ -1,23 +1,13 @@
-// import { View, Text } from "react-native";
-// import React, { useEffect } from "react";
-// import { Slot } from "expo-router";
-// import { useFonts } from "expo-font";
+import "../global.css";
+import {
+  SpaceGrotesk_400Regular,
+  useFonts,
+} from "@expo-google-fonts/space-grotesk";
+import { useEffect } from "react";
 
 // const RootLayout = () => {
-//   const [loaded, error] = useFonts({
-//     SpaceGrotesk: require("../assets/fonts/SpaceGrotesk-Regular.ttf"),
-//   });
-
-//   useEffect(() => {
-//     if (loaded || error) {
-//       <></>;
-//     }
-//   }, [loaded, error]);
-
-//   if (!loaded && !error) {
-//     return null;
-//   }
-//   return <Slot />;
+//   const [loaded] = useFonts({ SpaceGrotesk_400Regular });
+//   return;
 // };
 
 // export default RootLayout;
