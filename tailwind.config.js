@@ -6,7 +6,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        SpaceGrotesk: "SpaceGrotesk_400Regular",
+        SpGtskLight: "SpGtskLight",
+        SpGtskReg: "SpGtskReg",
+        SpGtskMid: "SpGtskMid",
+        SpGtskSMBold: "SpGtskSMBold",
       },
     },
   },

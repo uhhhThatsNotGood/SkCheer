@@ -20,10 +20,10 @@ const AuthIn: React.FC<AuthInProps> = ({
 }) => {
   return (
     <View className="items-center">
-      <Text className="color-white p-8 text-4xl">{label}</Text>
+      <Text className="color-white p-8 text-4xl font-SpGtskReg">{label}</Text>
       <TextInput
         className="text-3xl border-2 bg-slate-900/50 focus:bg-slate-950/90 focus:border-slate-900 focus:scale-105
-         border-white w-96 h-24 rounded-lg m-auto text-center color-white"
+         border-white w-80 h-24 rounded-lg m-auto text-center color-white font-SpGtskReg"
         placeholder={placehold}
         value={states}
         onChangeText={setStates}

@@ -1,63 +1,109 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   SafeAreaView,
   View,
   Text,
   Alert,
-  Pressable,
+  TouchableOpacity,
   ScrollView,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthIn from "../components/AuthIn";
-import { router } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { useRouter } from "expo-router";
+import useFonts from "../hooks/useFonts";
+import "../global.css";
+
+SplashScreen.preventAutoHideAsync();
+
 const App: React.FC = () => {
-  const [Seat, setSeat] = useState<string>("");
-  const [numSt, setnumSt] = useState<string>("");
+  const fontsLoaded = useFonts();
+  const router = useRouter();
+  const [seat, setSeat] = useState<string>("");
+  const [position, setPosition] = useState<string>("");
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  } else {
+    SplashScreen.hideAsync();
+  }
+
   const isNumber = (input: string): boolean => {
     return /^\d{1,2}$/.test(input);
   };
   const isAlphabet = (input: string): boolean => {
-    return /^[a-zA-Z]$/.test(input);
+    input = input.toUpperCase();
+    return /^[A-Z]$/.test(input);
   };
+  const storeData = async (key: string, value: string) => {
+    try {
+      await AsyncStorage.setItem(key, value);
+    } catch (e) {
+      Alert.alert("Error", "Saving data failed");
+    }
+  };
+  const readData = async (key: string) => {
+    try {
+      return await AsyncStorage.getItem(key);
+    } catch (e) {
+      Alert.alert("Error", "Retrieving data failed");
+    }
+  };
+
   const checkInfo = () => {
-    if (isNumber(numSt) && isAlphabet(Seat)) {
+    if (
+      isNumber(position) &&
+      isAlphabet(seat) &&
+      position !== "0" &&
+      position !== "00"
+    ) {
+      storeData("seat", seat);
+      storeData("position", position);
+      storeData("isLoggedIn", "true");
       router.replace("tabs/home");
     } else {
       Alert.alert("Error", "Incorrect Data");
     }
   };
-  // const saveInfo = async () => {
-  //   try {
-  //     await AsyncStorage.setItem("Seat", Seat);
-  //     await AsyncStorage.setItem("numSt", numSt);
-  //     console.log("data written successfully");
-  //   } catch (e) {
-  //     console.error("hahaFailed", e);
-  //   }
-  // };
-  // const loadInfo = async () => {
-  //   try {
-  //     const valSeat = await AsyncStorage.getItem("Seat");
-  //     const valnumSt = await AsyncStorage.getItem("numSt");
-  //     console.log("loadedEZ");
-  //   } catch (e) {
-  //     console.error("fuck", e);
-  //   }
-  // };
+  const checkFormerLogin = async () => {
+    try {
+      const formerData = await readData("isLoggedIn");
+      if (!formerData) {
+        Alert.alert("Error", "No previous data existed");
+        return;
+      }
+      const seatVale = await readData("seat");
+      const posValue = await readData("position");
+      if (seatVale && posValue) {
+        setSeat(seatVale);
+        setPosition(posValue);
+        console.log("Susccessful", seatVale, posValue);
+        router.replace("tabs/home");
+      } else {
+        Alert.alert("Error", "Data not found");
+      }
+    } catch (e) {
+      Alert.alert("Error", "Error loading previous data");
+    }
+  };
 
   return (
     <LinearGradient
+      onLayout={onLayoutRootView}
       colors={["#0d3d6b", "#1a1a1a", "#800852"]}
       locations={[0, 0.6, 1]}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
       className="h-full"
     >
       <ScrollView>
         <SafeAreaView>
           <View className="items-center mt-[25%] mb-8">
-            <Text className="text-7xl color-white font-bold ">
+            <Text className="text-6xl color-white font-SpGtskSMBold ">
               Authenticate
             </Text>
           </View>
@@ -67,7 +113,7 @@ const App: React.FC = () => {
               label="Seat"
               placehold="A"
               maxLen={1}
-              states={Seat}
+              states={seat}
               dataType="default"
               setStates={setSeat}
             />
@@ -75,18 +121,30 @@ const App: React.FC = () => {
               label="Seat No."
               placehold="01"
               maxLen={2}
-              states={numSt}
+              states={position}
               dataType="numeric"
-              setStates={setnumSt}
+              setStates={setPosition}
             />
           </View>
           <View className="items-center pt-16">
-            <Pressable
+            <TouchableOpacity
               onPress={checkInfo}
-              className="bg-[#402278] w-96 h-20 justify-center items-center rounded-lg"
+              className="bg-[#402278] w-72 h-20 justify-center items-center rounded-lg"
             >
-              <Text className="color-white text-2xl">Let's Go!</Text>
-            </Pressable>
+              <Text className="color-white text-3xl font-SpGtskSMBold">
+                Let's Go!
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View className="items-center pt-8">
+            <TouchableOpacity
+              onPress={checkFormerLogin}
+              className="bg-[#402278] w-72 h-20 justify-center items-center rounded-lg"
+            >
+              <Text className="color-white text-2xl font-SpGtskMid ">
+                Use previous Data.
+              </Text>
+            </TouchableOpacity>
           </View>
         </SafeAreaView>
       </ScrollView>
