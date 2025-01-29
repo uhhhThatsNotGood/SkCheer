@@ -66,7 +66,7 @@ const App: React.FC = () => {
       storeData("seat", seat);
       storeData("position", position);
       storeData("isLoggedIn", "true");
-      router.replace("tabs/home");
+      router.push("home");
     } else {
       Alert.alert("Error", "Incorrect Data");
     }
@@ -84,7 +84,7 @@ const App: React.FC = () => {
         setSeat(seatVale);
         setPosition(posValue);
         console.log("Susccessful", seatVale, posValue);
-        router.replace("tabs/home");
+        router.push("home");
       } else {
         Alert.alert("Error", "Data not found");
       }
@@ -98,11 +98,11 @@ const App: React.FC = () => {
       onLayout={onLayoutRootView}
       colors={["#0d3d6b", "#1a1a1a", "#800852"]}
       locations={[0, 0.6, 1]}
-      className="h-full"
+      className="h-full flex-1"
     >
       <ScrollView>
         <SafeAreaView>
-          <View className="items-center mt-[25%] mb-8">
+          <View className="items-center mt-[20%] ">
             <Text className="text-6xl color-white font-SpGtskSMBold ">
               Authenticate
             </Text>
@@ -129,7 +129,7 @@ const App: React.FC = () => {
           <View className="items-center pt-16">
             <TouchableOpacity
               onPress={checkInfo}
-              className="bg-[#402278] w-72 h-20 justify-center items-center rounded-lg"
+              className="bg-[#552ba4] w-72 h-20 justify-center items-center rounded-lg"
             >
               <Text className="color-white text-3xl font-SpGtskSMBold">
                 Let's Go!
@@ -139,10 +139,24 @@ const App: React.FC = () => {
           <View className="items-center pt-8">
             <TouchableOpacity
               onPress={checkFormerLogin}
-              className="bg-[#402278] w-72 h-20 justify-center items-center rounded-lg"
+              className="bg-[#552ba4] w-72 h-20 justify-center items-center rounded-lg"
             >
               <Text className="color-white text-2xl font-SpGtskMid ">
                 Use previous Data.
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View className="items-center pt-8">
+            <TouchableOpacity
+              className="bg-[#AA0000] rounded-lg 
+          items-center  w-72 h-16 justify-center"
+              onPress={() => {
+                AsyncStorage.clear();
+                Alert.alert("Cleared Data Succesfully");
+              }}
+            >
+              <Text className="text-2xl color-white font-SpGtskMid">
+                Clear Login Data
               </Text>
             </TouchableOpacity>
           </View>

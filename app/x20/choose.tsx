@@ -17,7 +17,7 @@ const x20 = () => {
   };
   const checkID = () => {
     const id = parseInt(input, 10);
-    router.push(`./${id}`);
+    router.push(`../x20/${id}`);
   };
   return (
     <LinearGradient
@@ -26,8 +26,11 @@ const x20 = () => {
       className="h-full items-center"
     >
       <SafeAreaView>
-        <View className="mt-[20%] items-center">
-          <Text className="text-8xl m-4 text-white font-SpGtskSMBold p-4">
+        <View className="mt-[15%] items-center">
+          <Text className="text-5xl text-white font-SpGtskMid mt-2">
+            ( 1 : 20 )
+          </Text>
+          <Text className="text-8xl m-4 text-white font-SpGtskSMBold p-2 mt-2">
             {input || "_ _"}
           </Text>
         </View>
@@ -72,6 +75,12 @@ const x20 = () => {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
+      <TouchableOpacity
+        onPress={() => router.back()}
+        className="absolute bottom-3 left-3 m-7 rounded-xl"
+      >
+        <Text className="text-3xl text-white">{"<"}Back</Text>
+      </TouchableOpacity>
     </LinearGradient>
   );
 };

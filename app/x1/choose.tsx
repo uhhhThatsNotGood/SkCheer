@@ -1,4 +1,10 @@
-import { View, SafeAreaView, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
@@ -16,8 +22,12 @@ const x1 = () => {
     setinput((prev) => prev.slice(0, -1));
   };
   const checkID = () => {
+    if (input === "" || input === "00" || input === "0") {
+      Alert.alert("Error", "Enter Image ID");
+      return;
+    }
     const id = parseInt(input, 10);
-    router.push(`./${id}`);
+    router.push(`../x1/${id}`);
   };
   return (
     <LinearGradient
@@ -26,8 +36,11 @@ const x1 = () => {
       className="h-full items-center"
     >
       <SafeAreaView>
-        <View className="mt-[20%] items-center">
-          <Text className="text-8xl m-4 text-white font-SpGtskSMBold p-4">
+        <View className="mt-[15%] items-center">
+          <Text className="text-5xl text-white font-SpGtskMid mt-2">
+            ( 1 : 1 )
+          </Text>
+          <Text className="text-8xl  text-white font-SpGtskSMBold p-2 mt-2">
             {input || "_ _"}
           </Text>
         </View>
@@ -72,6 +85,12 @@ const x1 = () => {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
+      <TouchableOpacity
+        onPress={() => router.back()}
+        className="absolute bottom-3 left-3 m-7 rounded-xl"
+      >
+        <Text className="text-3xl text-white">{"<"}Back</Text>
+      </TouchableOpacity>
     </LinearGradient>
   );
 };
