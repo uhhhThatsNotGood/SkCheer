@@ -11,8 +11,8 @@ export const getPixel24 = (
   row: number
 ): string => {
   if (!bmpData) return "Error";
-  const offset = row * rowSize + col * 6;
-  if (offset + 6 > bmpData.length) return "Errorr";
+  const offset = row * (rowSize + 4) + col * 6;
+  if (offset + 6 > bmpData.length) return "Error";
   const bgrHex = bmpData.slice(offset, offset + 6);
   const b = bgrHex.slice(0, 2);
   const g = bgrHex.slice(2, 4);
@@ -26,7 +26,6 @@ export const getPixel32 = (
   row: number
 ): string => {
   if (!bmpData) return "Error";
-  const bytesPerPixel = 4;
   const offset = row * rowSize + col * 8;
   if (offset + 6 > bmpData.length) return "Errorr";
   const bgrHex = bmpData.slice(offset, offset + 6);

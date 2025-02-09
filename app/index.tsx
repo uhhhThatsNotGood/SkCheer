@@ -1,14 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
-import {
-  SafeAreaView,
-  View,
-  Text,
-  Alert,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import React, { useState, useCallback } from "react";
+import { View, Text, Alert, TouchableOpacity, ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SafeAreaView } from "react-native-safe-area-context";
 import AuthIn from "../components/AuthIn";
 import * as SplashScreen from "expo-splash-screen";
 import { useRouter } from "expo-router";
@@ -61,7 +55,9 @@ const App: React.FC = () => {
       isNumber(position) &&
       isAlphabet(seat) &&
       position !== "0" &&
-      position !== "00"
+      position !== "00" &&
+      parseInt(position) < 51 &&
+      seat.toUpperCase() !== "Z"
     ) {
       storeData("seat", seat);
       storeData("position", position);
@@ -83,7 +79,6 @@ const App: React.FC = () => {
       if (seatVale && posValue) {
         setSeat(seatVale);
         setPosition(posValue);
-        console.log("Susccessful", seatVale, posValue);
         router.push("home");
       } else {
         Alert.alert("Error", "Data not found");
@@ -152,6 +147,8 @@ const App: React.FC = () => {
           items-center  w-72 h-16 justify-center"
               onPress={() => {
                 AsyncStorage.clear();
+                setSeat("");
+                setPosition("");
                 Alert.alert("Cleared Data Succesfully");
               }}
             >

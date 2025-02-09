@@ -1,6 +1,5 @@
 import {
   View,
-  SafeAreaView,
   ScrollView,
   Alert,
   Text,
@@ -10,6 +9,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect } from "react";
 import { Asset } from "expo-asset";
 
@@ -132,12 +132,10 @@ const X20display = () => {
       <ScrollView>
         <SafeAreaView>
           <View className="items-center mt-[10%]">
-            <Text className="text-4xl text-white font-SpGtskSMBold items-center mb-4">
+            <Text className="text-4xl text-white font-SpGtskSMBold items-center mb-3 mt-2 p-2">
               {" "}
-              X20{"["}
-              {id}
-              {"]\n\n   "} {seat}
-              {posToIndex(position) / 5 + 1}
+              X20 โค้ด {id}
+              {"\n   "}( {seat} {posToIndex(position) / 5 + 1} )
             </Text>
           </View>
           <View className="items-center mt-4">
@@ -176,7 +174,11 @@ const X20display = () => {
               Current Image{" "}
             </Text>
             {id ? (
-              <Image source={imageMapX20[id]} className="w-80 h-40" />
+              <Image
+                source={imageMapX20[id]}
+                className="w-80 h-40"
+                resizeMode="contain"
+              />
             ) : (
               <Text className="text-xl items-center text-white">
                 Loading...

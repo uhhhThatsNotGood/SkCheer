@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-  SafeAreaView,
-  View,
-  Text,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import "../global.css";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Home = () => {
   const router = useRouter();
@@ -68,7 +63,7 @@ const Home = () => {
       </SafeAreaView>
       <TouchableOpacity
         onPress={() => router.back()}
-        className="absolute bottom-3 left-3 m-7 rounded-xl"
+        className="absolute bottom-3 left-3 m-2 p-5 rounded-xl"
       >
         <Text className="text-3xl text-white">{"<"}Back</Text>
       </TouchableOpacity>

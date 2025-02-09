@@ -1,6 +1,5 @@
 import {
   View,
-  SafeAreaView,
   ScrollView,
   Alert,
   Text,
@@ -10,6 +9,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect } from "react";
 import { Asset } from "expo-asset";
 
@@ -62,19 +62,18 @@ const X1display = () => {
       const b64Data = await fetch(asset.localUri!);
       const buffer = await b64Data.arrayBuffer();
       const Uint8Arr = new Uint8Array(buffer);
-      const bmpData = toHexString(Uint8Arr).slice(72);
+      const bmpData = toHexString(Uint8Arr).slice(108);
       const width = 50;
-      console.log(bmpData.slice(0, 200));
       const data = getPixel24(
         bmpData,
-        50 * 6 + 4,
+        50 * 6,
         posToIndex(position),
         seatToIndex(seat)
       );
       if (!data) return;
-      setPixelColor(data);
 
       if (data) {
+        setPixelColor(data);
         await AsyncStorage.setItem(cachedKeys, pixelColor ?? "");
       }
     } catch (e) {
@@ -101,19 +100,18 @@ const X1display = () => {
       <ScrollView>
         <SafeAreaView>
           <View className="items-center mt-[10%]">
-            <Text className="text-4xl text-white font-SpGtskSMBold items-center mb-4">
+            <Text className="text-4xl text-white font-SpGtskSMBold items-center mb-3 mt-2 p-2">
               {" "}
-              X1{"-"}
-              {id} {"\n\n "}( {seat}
+              X1 โค้ด {id} {"\n   "}( {seat}
               {posToIndex(position) + 1} )
             </Text>
           </View>
           <View className="items-center mt-4">
             <View
               style={{ backgroundColor: pixelColor ?? "" }}
-              className="h-96 w-96 items-center justify-center rounded-xl border border-white"
+              className="h-80 w-80 items-center justify-center rounded-xl border border-white"
             ></View>
-            <Text className="text-5xl text-white font-SpGtskMid mt-6">
+            <Text className="text-4xl text-white font-SpGtskMid mt-6">
               {pixelColor ? colorToNameX1(pixelColor) : "Loading hex data..."}
             </Text>
           </View>
@@ -122,13 +120,23 @@ const X1display = () => {
               Current Image{" "}
             </Text>
             {id ? (
-              <Image source={imageMapX1[id]} className="w-80 h-40" />
+              <Image
+                source={imageMapX1[id]}
+                className="w-72 h-36"
+                resizeMode="contain"
+                resizeMethod="scale"
+              />
             ) : (
               <Text className="text-xl items-center text-white">
                 Loading...
               </Text>
             )}
           </View>
+          {/* <View>
+            <TouchableOpacity>
+              <Text>1:1 ต่อเนื่อง</Text>
+            </TouchableOpacity>
+          </View> */}
         </SafeAreaView>
       </ScrollView>
       <TouchableOpacity
