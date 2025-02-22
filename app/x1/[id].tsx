@@ -132,11 +132,6 @@ const X1display = () => {
               </Text>
             )}
           </View>
-          {/* <View>
-            <TouchableOpacity>
-              <Text>1:1 ต่อเนื่อง</Text>
-            </TouchableOpacity>
-          </View> */}
         </SafeAreaView>
       </ScrollView>
       <TouchableOpacity
